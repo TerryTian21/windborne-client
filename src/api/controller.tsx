@@ -31,7 +31,6 @@ export async function fetch_planes(
 
 export async function fetch_spline(balloon: BalloonDataPoint[]) {
     try {
-        console.log("Sending balloon data:", balloon);
         const response = await axios.post(`${API_URL}/paths`, balloon);
         return response.data;
     } catch (error) {

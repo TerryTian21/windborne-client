@@ -168,9 +168,9 @@ function App() {
                         {" "}
                         A collision region is defined by a 0.2, 0.2, 1,
                         (longitude, latitude, altitude) cube surrounding the
-                        balloon. Coverted to metric units, this is equivalent to
-                        a 20km by 20km by 1 km cube. Click the button below to
-                        search for flights in the collision region.
+                        balloon. Converted to metric units, this is equivalent
+                        to a 20km by 20km by 1 km cube. Click the button below
+                        to search for flights in the collision region.
                     </p>
 
                     {spinner ? (
