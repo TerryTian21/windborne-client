@@ -2,10 +2,10 @@ import Plot from "react-plotly.js";
 import {
     BalloonDataPoint,
     PlaneDataPoint,
-} from "../interface/balloon_interface";
+} from "../interface/balloon_interface.tsx";
 import { Layout, Data } from "plotly.js";
 import { useEffect, useState } from "react";
-import { fetch_spline } from "../api/controller";
+import { fetch_spline } from "../api/controller.tsx";
 
 interface SpatialComponentProps {
     balloonData: BalloonDataPoint[];

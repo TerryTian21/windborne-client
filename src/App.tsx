@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import Select from "react-select";
-import MapComponent from "./components/mapComponent";
-import SpatialComponent from "./components/spatialComponent";
-import { fetch_balloons, fetch_planes } from "./api/controller";
-import balloonData from "./assets/balloon_data.json";
-import { BalloonDataPoint } from "./interface/balloon_interface";
-import filter_balloons from "./helper/balloon_filter";
-import compute_center from "./helper/map_helper";
+import MapComponent from "./components/mapComponent.tsx";
+import SpatialComponent from "./components/spatialComponent.tsx";
+import { fetch_balloons, fetch_planes } from "./api/controller.tsx";
+import { BalloonDataPoint } from "./interface/balloon_interface.tsx";
+import filter_balloons from "./helper/balloon_filter.tsx";
+import compute_center from "./helper/map_helper.tsx";
 import { HashLoader } from "react-spinners";
-import { locationOptions, continentOptions } from "./assets/static_data";
+import { locationOptions, continentOptions } from "./assets/static_data.ts";
 import "./styles/App.css";
 
 function App() {
@@ -34,6 +33,7 @@ function App() {
     // Use Effect
     useEffect(() => {
         fetch_balloons().then((data) => {
+            alert("Data Loaded Successfully");
             setData(data.balloons);
         });
         // setData(balloonData);
@@ -89,7 +89,10 @@ function App() {
         <div className="App">
             <div className="Header">
                 <h1 className="Title">Windborne</h1>
-                <h3> A Collision Detection Application </h3>
+                <h3 className="Description">
+                    {" "}
+                    A Collision Detection Application{" "}
+                </h3>
             </div>
             <div className="Main">
                 <div className="Introduction">

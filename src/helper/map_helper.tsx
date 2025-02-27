@@ -1,13 +1,14 @@
 import { BalloonDataPoint } from "../interface/balloon_interface";
 
-export default function compute_center(allData: BalloonDataPoint[]) {
-    let x_sum = 0;
-    let y_sum = 0;
+export default function compute_center(
+    data: BalloonDataPoint[]
+): [number, number] {
+    if (data.length === 0) {
+        return [0, 0];
+    }
 
-    allData.forEach((balloon) => {
-        x_sum += balloon.x;
-        y_sum += balloon.y;
-    });
+    const x_sum = data.reduce((sum, point) => sum + point.x, 0);
+    const y_sum = data.reduce((sum, point) => sum + point.y, 0);
 
-    return [x_sum / allData.length, y_sum / allData.length] as [number, number];
+    return [x_sum / data.length, y_sum / data.length];
 }

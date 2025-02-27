@@ -3,65 +3,64 @@ import { continentBounds } from "../assets/static_data";
 
 export default function filter_balloons(
     data: BalloonDataPoint[],
-    locationType: string,
+    location: string,
     continent: string
-) {
-    let filtered_results = data;
+): BalloonDataPoint[] {
+    let filtered = [...data];
 
+    // Filter by continent first
     if (continent !== "any") {
         const bounds =
             continentBounds[continent as keyof typeof continentBounds];
 
-        filtered_results = filtered_results.filter((balloon) => {
-            return (
-                balloon.x <= bounds.north &&
-                balloon.x >= bounds.south &&
+        filtered = filtered.filter((balloon) => {
+            const inBounds =
                 balloon.y >= bounds.west &&
-                balloon.y <= bounds.east
-            );
+                balloon.y <= bounds.east &&
+                balloon.x >= bounds.south &&
+                balloon.x <= bounds.north;
+
+            return inBounds;
         });
     }
 
-    if (locationType === "starting") {
-        let earliest_balloons = data.reduce(
-            (min, balloon): { [key: number]: BalloonDataPoint } => {
-                if (
-                    !min[balloon.balloon_num] ||
-                    balloon.hour < min[balloon.balloon_num].hour
-                ) {
-                    min[balloon.balloon_num] = balloon;
-                }
-                return min;
-            },
-            {} as { [key: number]: BalloonDataPoint }
-        );
+    if (location === "starting") {
+        let first_balloons = data.reduce((acc, balloon) => {
+            if (
+                !acc[balloon.balloon_num] ||
+                balloon.hour < acc[balloon.balloon_num].hour
+            ) {
+                acc[balloon.balloon_num] = balloon;
+                return acc;
+            }
 
-        filtered_results = filtered_results.filter((balloon) => {
-            if (earliest_balloons[balloon.balloon_num].hour == balloon.hour) {
+            return acc;
+        }, {} as { [key: number]: BalloonDataPoint });
+
+        filtered = filtered.filter((balloon) => {
+            if (first_balloons[balloon.balloon_num].hour == balloon.hour) {
                 return balloon;
             }
         });
-    } else if (locationType === "ending") {
-        let latest_balloons = data.reduce(
-            (max, balloon): { [key: number]: BalloonDataPoint } => {
-                if (
-                    !max[balloon.balloon_num] ||
-                    balloon.hour > max[balloon.balloon_num].hour
-                ) {
-                    max[balloon.balloon_num] = balloon;
-                }
-                return max;
-            },
-            {} as { [key: number]: BalloonDataPoint }
-        );
+    } else if (location === "ending") {
+        let last_balloons = data.reduce((acc, balloon) => {
+            if (
+                !acc[balloon.balloon_num] ||
+                balloon.hour > acc[balloon.balloon_num].hour
+            ) {
+                acc[balloon.balloon_num] = balloon;
+                return acc;
+            }
 
-        filtered_results = filtered_results.filter((balloon) => {
-            if (latest_balloons[balloon.balloon_num].hour == balloon.hour) {
+            return acc;
+        }, {} as { [key: number]: BalloonDataPoint });
+
+        filtered = filtered.filter((balloon) => {
+            if (last_balloons[balloon.balloon_num].hour == balloon.hour) {
                 return balloon;
             }
         });
     }
 
-    console.log("Filtered Balloons:", filtered_results.length);
-    return filtered_results;
+    return filtered;
 }
